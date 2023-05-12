@@ -25,6 +25,10 @@ const xss = require("xss-clean");
 const cors = require("cors");
 const mongoSanitize = require("express-mongo-sanitize");
 
+const swaggerUI = require("swagger-ui-express");
+const YAML = require("yamljs");
+const swaggerDocument = YAML.load("./swagger.yaml");
+
 const port = process.env.port || "5000";
 
 app.set("trust proxy", 1);
@@ -45,6 +49,8 @@ app.use(cookieParser(process.env.JWT_SECRET)); // to access cookies coming back 
 
 app.use(express.static("./public"));
 app.use(fileUpload());
+
+app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
