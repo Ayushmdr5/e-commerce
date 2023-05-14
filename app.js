@@ -50,6 +50,11 @@ app.use(cookieParser(process.env.JWT_SECRET)); // to access cookies coming back 
 app.use(express.static("./public"));
 app.use(fileUpload());
 
+app.get("/", (req, res) => {
+  res.send(
+    "<div style='text-align: center'><h1>E-commerce API<h1><a href='/api-docs'/>Documentation</a></div>"
+  );
+});
 app.use("/api-docs", swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.use("/api/v1/auth", authRouter);
